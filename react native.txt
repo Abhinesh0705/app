@@ -1,0 +1,117 @@
+import * as React  from 'react';
+import { useState } from 'react';
+import { Pressable,StyleSheet, View, Text, SafeAreaView,TextInput,Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  createStackNavigator,
+  HeaderBackButton,
+} from '@react-navigation/stack';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
+function login({ navigation }) {
+ 
+  
+  const [number, onChangeNumber] = React.useState('');
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text style={styles.title}>Get Started</Text>
+       <TextInput 
+        style={styles.input}
+        onChangeText={(data) => setTextInputValue(data)}
+        value={number}
+        placeholder="Enter Phone Number"
+        keyboardType="numeric"
+      />
+      <Pressable
+        onPress={() => navigation.navigate('OTP')}
+        
+        style={{
+          backgroundColor: 'skyblue',
+          padding: 10,
+          marginBottom: 20,
+          marginTop: 10,
+        }}>
+        <Text>      Generate OTP       </Text>
+      </Pressable>
+    </View>
+  );
+}
+
+
+function OTP({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Enter OTP</Text>
+       <TextInput 
+       style={styles.input}
+          placeholder="Enter Here"
+          placeholderTextColor="#60605e"
+          numeric
+          keyboardType={'numeric'}
+       />
+       <Pressable
+        onPress={() => navigation.navigate('data')}
+        style={{
+          backgroundColor: 'skyblue',
+          padding: 10,
+          marginBottom: 20,
+          marginTop: 10,
+        }}>
+        <Text>      Start       </Text>
+      </Pressable>
+    </View>
+    
+  );
+}
+
+function data() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Your Mobile Number</Text>
+    </View>
+  );
+}
+const Stack = createStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={({ navigation, route }) => ({
+          headerLeft: (props) => {
+            return (
+              <>
+                <Text></Text>
+                {props.canGoBack && <HeaderBackButton {...props} />}
+              </>
+            );
+          },
+        })}>
+        <Stack.Screen name="Login" component={login} />
+        <Stack.Screen name="OTP" component={OTP} />
+         <Stack.Screen name="data" component={data} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+  
+}
+
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 25,
+    alignItems: 'center',
+    fontWeight: 'bold',
+    color: 'BLACK',
+  },
+  input:{
+    height: 40,           
+    margin: 12,
+    borderWidth: 2,
+    padding: 20,
+  },
+});
+
+
+export default App;
